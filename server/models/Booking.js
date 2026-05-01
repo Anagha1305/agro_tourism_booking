@@ -5,7 +5,17 @@ const bookingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Farm",
   },
+
   userEmail: String,
+
+  name: String,
+
+  phone: String,
+
+  payment: String,
+
+  price: Number,
+
   date: {
     type: Date,
     default: Date.now,
