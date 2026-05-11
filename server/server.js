@@ -6,9 +6,12 @@ const app = express();
 
 // ✅ Middleware (MUST COME FIRST)
 app.use(cors({
-  origin: "http://localhost:3000", // allow frontend
+  origin: [
+    "http://localhost:3000",
+    "https://agro-tourism-booking-p8sb.vercel.app"
+  ],
+  credentials: true,
 }));
-app.use(express.json());
 
 // ✅ MongoDB Connection
 mongoose.connect(
