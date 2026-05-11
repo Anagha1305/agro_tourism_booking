@@ -23,9 +23,14 @@ function Login() {
 
     try {
       const res = await axios.post(
-        `${API}/api/auth/login`,
-        form
-      );
+  `${API}/api/auth/login`,
+  form,
+  {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }
+);
 
       toast.success(res.data.message);
 

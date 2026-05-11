@@ -1,10 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 
-// ✅ Middleware (MUST COME FIRST)
+// ✅ Middleware
 app.use(cors({
   origin: [
     "http://localhost:3000",
@@ -13,19 +14,23 @@ app.use(cors({
   credentials: true,
 }));
 
-// ✅ MongoDB Connection
-require("dotenv").config();
+// ✅ VERY IMPORTANT
+app.use(express.json());
 
+// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected ✅"))
 .catch((err) => console.log(err));
 
-// ✅ Routes (AFTER middleware)
+// ✅ Routes
 const farmRoutes = require("./routes/farm");
 app.use("/api/farms", farmRoutes);
 
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
+
+const bookingRoutes = require("./routes/booking");
+app.use("/api/bookings", bookingRoutes);
 
 // ✅ Test route
 app.get("/", (req, res) => {
@@ -36,6 +41,3 @@ app.get("/", (req, res) => {
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
-
-const bookingRoutes = require("./routes/booking");
-app.use("/api/bookings", bookingRoutes);
