@@ -4,9 +4,12 @@ import axios from "axios";
 function HostAnalytics() {
   const [data, setData] = useState([]);
 
+  // ✅ API URL from .env
+  const API = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/bookings/analytics/summary")
+      .get(`${API}/api/bookings/analytics/summary`)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   }, []);

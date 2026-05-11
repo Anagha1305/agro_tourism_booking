@@ -5,10 +5,13 @@ import toast from "react-hot-toast";
 function MyBookings() {
   const [bookings, setBookings] = useState([]);
 
+  // ✅ API URL from .env
+  const API = process.env.REACT_APP_API_URL;
+
   // 🔥 Fetch bookings
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/bookings/guest@test.com")
+      .get(`${API}/api/bookings/guest@test.com`)
       .then((res) => {
         setBookings(res.data);
       })
@@ -21,7 +24,7 @@ function MyBookings() {
 
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/bookings/cancel/${bookingId}`
+        `${API}/api/bookings/cancel/${bookingId}`
       );
 
       toast.success(res.data.message);
@@ -29,6 +32,7 @@ function MyBookings() {
       setBookings((prev) =>
         prev.filter((b) => b._id !== bookingId)
       );
+
     } catch (err) {
       toast.error("Cancel failed ❌");
     }

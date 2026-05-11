@@ -10,8 +10,14 @@ function Signup() {
     role: "guest",
   });
 
+  // ✅ API URL from .env
+  const API = process.env.REACT_APP_API_URL;
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -19,13 +25,16 @@ function Signup() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/signup",
+        `${API}/api/auth/signup`,
         form
       );
 
       toast.success(res.data.message);
+
     } catch (err) {
-      toast.error("Signup failed ❌");
+      toast.error(
+        err.response?.data?.error || "Signup failed ❌"
+      );
     }
   };
 

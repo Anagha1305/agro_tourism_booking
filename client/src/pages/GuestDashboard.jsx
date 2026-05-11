@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 function GuestDashboard() {
   const [farms, setFarms] = useState([]);
   const navigate = useNavigate();
+  const API = process.env.REACT_APP_API_URL;
 
   // Booking modal states
   const [showForm, setShowForm] = useState(false);
@@ -20,7 +21,7 @@ function GuestDashboard() {
   // Fetch farms
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/farms")
+      .get(`${API}/api/farms`)
       .then((res) => setFarms(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -42,7 +43,7 @@ function GuestDashboard() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/bookings/book",
+        `${API}/api/bookings/book`,
         {
           farmId: selectedFarm._id,
           userEmail: "guest@test.com",

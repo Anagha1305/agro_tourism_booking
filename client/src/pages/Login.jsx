@@ -8,8 +8,14 @@ function Login() {
     password: "",
   });
 
+  // ✅ API URL from .env
+  const API = process.env.REACT_APP_API_URL;
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -17,7 +23,7 @@ function Login() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API}/api/auth/login`,
         form
       );
 
@@ -34,7 +40,10 @@ function Login() {
 
     } catch (err) {
       console.log(err);
-      toast.error(err.response?.data?.error || "Login failed");
+
+      toast.error(
+        err.response?.data?.error || "Login failed"
+      );
     }
   };
 

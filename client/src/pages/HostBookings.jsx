@@ -4,9 +4,12 @@ import axios from "axios";
 function HostBookings() {
   const [bookings, setBookings] = useState([]);
 
+  // ✅ API URL from .env
+  const API = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/bookings")
+      .get(`${API}/api/bookings`)
       .then((res) => setBookings(res.data))
       .catch((err) => console.log(err));
   }, []);

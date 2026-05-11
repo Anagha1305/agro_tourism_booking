@@ -20,10 +20,13 @@ function HostDashboard() {
   const [farms, setFarms] = useState([]);
   const navigate = useNavigate();
 
+  // ✅ API URL from .env
+  const API = process.env.REACT_APP_API_URL;
+
   const fetchData = async () => {
     try {
-      const farmsRes = await axios.get("http://localhost:5000/api/farms");
-      const bookingsRes = await axios.get("http://localhost:5000/api/bookings");
+      const farmsRes = await axios.get(`${API}/api/farms`);
+      const bookingsRes = await axios.get(`${API}/api/bookings`);
 
       setFarms(farmsRes.data);
 
@@ -31,11 +34,16 @@ function HostDashboard() {
       const totalBookings = bookingsRes.data.length;
 
       let revenue = 0;
+
       bookingsRes.data.forEach((b) => {
         revenue += b.farmId?.price || 0;
       });
 
-      setStats({ totalFarms, totalBookings, revenue });
+      setStats({
+        totalFarms,
+        totalBookings,
+        revenue,
+      });
 
     } catch (err) {
       console.log(err);
@@ -47,7 +55,10 @@ function HostDashboard() {
   }, []);
 
   const handleChange = (e) => {
-    setFarm({ ...farm, [e.target.name]: e.target.value });
+    setFarm({
+      ...farm,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -55,7 +66,7 @@ function HostDashboard() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/farms/add",
+        `${API}/api/farms/add`,
         farm
       );
 
@@ -79,10 +90,14 @@ function HostDashboard() {
     if (!window.confirm("Delete this farm?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/farms/${id}`);
+      await axios.delete(`${API}/api/farms/${id}`);
+
       toast.success("Farm removed");
 
-      setFarms((prev) => prev.filter((f) => f._id !== id));
+      setFarms((prev) =>
+        prev.filter((f) => f._id !== id)
+      );
+
       fetchData();
 
     } catch (err) {
