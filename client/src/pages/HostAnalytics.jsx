@@ -12,7 +12,7 @@ function HostAnalytics() {
       .get(`${API}/api/bookings/analytics/summary`)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [API]);
 
   return (
     <div className="container">

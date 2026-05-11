@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ function HostDashboard() {
   // ✅ API URL from .env
   const API = process.env.REACT_APP_API_URL;
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const farmsRes = await axios.get(`${API}/api/farms`);
       const bookingsRes = await axios.get(`${API}/api/bookings`);
@@ -48,11 +48,11 @@ function HostDashboard() {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [API]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleChange = (e) => {
     setFarm({

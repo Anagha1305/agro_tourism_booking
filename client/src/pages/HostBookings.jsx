@@ -12,7 +12,7 @@ function HostBookings() {
       .get(`${API}/api/bookings`)
       .then((res) => setBookings(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [API]);
 
   return (
     <div className="container">

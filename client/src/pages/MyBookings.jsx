@@ -16,7 +16,7 @@ function MyBookings() {
         setBookings(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [API]);
 
   // ❌ Cancel booking
   const handleCancel = async (bookingId) => {

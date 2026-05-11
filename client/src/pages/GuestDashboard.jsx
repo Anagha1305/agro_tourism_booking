@@ -24,7 +24,7 @@ function GuestDashboard() {
       .get(`${API}/api/farms`)
       .then((res) => setFarms(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [API]);
 
   // Handle input
   const handleChange = (e) => {
