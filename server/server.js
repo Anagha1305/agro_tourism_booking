@@ -14,9 +14,9 @@ app.use(cors({
 }));
 
 // ✅ MongoDB Connection
-mongoose.connect(
-  "mongodb://Anagha:Anagha%402006@ac-pfaftjt-shard-00-00.ca9eej4.mongodb.net:27017,ac-pfaftjt-shard-00-01.ca9eej4.mongodb.net:27017,ac-pfaftjt-shard-00-02.ca9eej4.mongodb.net:27017/agrotourism?ssl=true&replicaSet=atlas-t5eiwa-shard-0&authSource=admin&retryWrites=true&w=majority"
-)
+require("dotenv").config();
+
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected ✅"))
 .catch((err) => console.log(err));
 
