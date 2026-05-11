@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router(); // ✅ THIS WAS MISSING
+const router = express.Router();
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -14,8 +14,11 @@ router.post("/signup", async (req, res) => {
     const { name, email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({
+        error: "User already exists",
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -31,11 +34,16 @@ router.post("/signup", async (req, res) => {
 
     console.log("User saved:", newUser);
 
-    res.json({ message: "Signup successful ✅" });
+    res.json({
+      message: "Signup successful ✅",
+    });
 
   } catch (err) {
-    console.log("Signup ERROR:", err);
-    res.status(500).json({ error: err.message });
+    console.log("SIGNUP ERROR:", err);
+
+    res.status(500).json({
+      error: err.message,
+    });
   }
 });
 
@@ -43,24 +51,42 @@ router.post("/signup", async (req, res) => {
 // ✅ LOGIN
 router.post("/login", async (req, res) => {
   try {
+    console.log("LOGIN REQUEST:", req.body);
+
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
 
+    console.log("FOUND USER:", user);
+
     if (!user) {
-      return res.status(400).json({ error: "User not found" });
+      return res.status(400).json({
+        error: "User not found",
+      });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    console.log("PASSWORD MATCH:", isMatch);
 
     if (!isMatch) {
-      return res.status(400).json({ error: "Invalid password" });
+      return res.status(400).json({
+        error: "Invalid password",
+      });
     }
 
     const token = jwt.sign(
-      { email: user.email, role: user.role },
+      {
+        email: user.email,
+        role: user.role,
+      },
       "secretkey",
-      { expiresIn: "1h" }
+      {
+        expiresIn: "1h",
+      }
     );
 
     res.json({
@@ -70,9 +96,12 @@ router.post("/login", async (req, res) => {
     });
 
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err.message });
+    console.log("LOGIN ERROR:", err);
+
+    res.status(500).json({
+      error: err.message,
+    });
   }
 });
 
-module.exports = router; // ✅ ALSO IMPORTANT
+module.exports = router;
